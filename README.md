@@ -1,3 +1,7 @@
+## How To Run
+For running code, download and execute "requirements.txt" by running the command:
+pip install -r requirements.txt
+
 ## Inspiration
 Having to drive while fatigued is one of the prime factors of road accidents worldwide, especially in the Mountains, where a small mistake can lead to accidents. After witnessing one such accident with our eyes, we thought about it and came up with this product. We hope that as we continue to work on this product and improve it, it can help avert a lot of accidents in the future.
 With 2 of our team members being First Time Hackers, we were really excited to create something which benefits the world and we hope to accomplish the same with this product.
