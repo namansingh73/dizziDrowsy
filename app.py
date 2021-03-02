@@ -87,7 +87,7 @@ ap.add_argument("-p", "--shape-predictor", default="shape_predictor_68_face_land
                 help="path to facial landmark predictor")
 ap.add_argument("-w", "--webcam", type=int, default=1,
                 help="index of webcam on system")
-args = vars(ap.parse_args())
+args,unknown = vars(ap.parse_known_args())
 
 EYE_AR_THRESH = 0.20
 EYE_AR_CONSEC_FRAMES = 25
