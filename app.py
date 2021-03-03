@@ -12,7 +12,7 @@ points = [(100, 150), (200, 400), (300, 270), (400, 300), (150, 400), (250, 300)
 start = time.time()
 random.shuffle(points)
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 
 def distance(x1, y1, x2, y2):
@@ -68,7 +68,7 @@ import time
 import dlib
 import cv2
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 vs = cv2.VideoCapture(0)  # use 0 for web camera
 #  for cctv camera use rtsp://username:password@ip_address:554/user=username_password='password'_channel=channel_number_stream=0.sdp' instead of camera
