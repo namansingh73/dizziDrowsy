@@ -7,16 +7,16 @@ import random
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(1)
 points = [(100, 150), (200, 400), (300, 270), (400, 300), (150, 400), (250, 300), (350, 200), (450, 350)]
 start = time.time()
 random.shuffle(points)
 
-app = Flask(__name__)
+app = Flask(_name_)
 
 
 def distance(x1, y1, x2, y2):
-    distance = ((((x2 - x1) ** 2) + ((y2 - y1) ** 2)) ** 0.5)
+    distance = ((((x2 - x1) * 2) + ((y2 - y1) * 2)) ** 0.5)
     return distance
 
 
@@ -68,9 +68,9 @@ import time
 import dlib
 import cv2
 
-app = Flask(__name__)
+app = Flask(_name_)
 
-vs = cv2.VideoCapture(0)  # use 0 for web camera
+vs = cv2.VideoCapture(1)  # use 0 for web camera
 #  for cctv camera use rtsp://username:password@ip_address:554/user=username_password='password'_channel=channel_number_stream=0.sdp' instead of camera
 # for local webcam use cv2.VideoCapture(0)
 
