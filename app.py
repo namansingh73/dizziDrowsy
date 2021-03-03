@@ -82,12 +82,12 @@ def eye_aspect_ratio(eye):
     return ear
 
 
-ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--shape-predictor", default="shape_predictor_68_face_landmarks.dat",
-                help="path to facial landmark predictor")
-ap.add_argument("-w", "--webcam", type=int, default=1,
-                help="index of webcam on system")
-args = vars(ap.parse_args())
+# ap = argparse.ArgumentParser()
+# ap.add_argument("-p", "--shape-predictor", default="shape_predictor_68_face_landmarks.dat",
+#                 help="path to facial landmark predictor")
+# ap.add_argument("-w", "--webcam", type=int, default=1,
+#                 help="index of webcam on system")
+# args = vars(ap.parse_args())
 
 EYE_AR_THRESH = 0.20
 EYE_AR_CONSEC_FRAMES = 25
@@ -100,7 +100,7 @@ drowsyWarning = False
 
 print("[INFO] loading facial landmark predictor...")
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor(args["shape_predictor"])
+predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
