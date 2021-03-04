@@ -20,6 +20,7 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
   </head>
   <body>
+    <div class="bg-animated" include-html="/back"></div>
     <div class="drive-stream">
       <img src="{{ url_for('video_feed1') }}" class="drive-stream-video" alt="" />
       <div class="drive-stream--toolbar">
@@ -44,5 +45,6 @@
     <div class="cursor-dot"></div>
     <script src="{{ url_for('static',filename='js/cursor.js') }}"></script>
     <script src="{{ url_for('static',filename='js/driving.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/bg.js') }}"></script>
   </body>
 </html>

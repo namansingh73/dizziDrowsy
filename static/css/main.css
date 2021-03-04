@@ -18,11 +18,6 @@
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
 }
 
-.end-ride a{
-  text-decoration: none;
-  color:white;
-}
-
 .cursor-dot {
   width: 8px;
   height: 8px;
@@ -34,9 +29,11 @@
 .cursor-dot-outline {
   width: 40px;
   height: 40px;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.25);
+  border: none;
   -webkit-backdrop-filter: invert(100%);
           backdrop-filter: invert(100%);
+  overflow: hidden;
 }
 
 .hero_text {
@@ -316,7 +313,7 @@
   z-index: 0;
   opacity: 0;
   width: 100%;
-  height:100vh;
+  height: 90vh;
 }
 
 .drive-stream--toolbar {
@@ -392,6 +389,36 @@
 .thankyou-container a:hover {
   color: white;
   text-decoration: underline;
+}
+
+#myVideo {
+  position: absolute;
+  z-index: 0;
+  right: 50%;
+  bottom: 50%;
+  -webkit-transform: translate(50%, 50%);
+          transform: translate(50%, 50%);
+  min-width: 100%;
+}
+
+.error-container {
+  width: 80%;
+  height: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #0f0f0f;
+  padding: 20px;
+}
+
+.error-container p.error {
+  font-size: 20px;
 }
 
 .accident {
@@ -521,6 +548,13 @@
   font-weight: 500;
 }
 
+.bg-animated {
+  min-height: 100vh;
+  min-width: 100vw;
+  position: absolute;
+  z-index: 0;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -533,7 +567,8 @@ html,
 body {
   background-color: #121212;
   opacity: 1;
-  background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #121212 20px), repeating-linear-gradient(#00000055, #000000);
+  background: radial-gradient(circle, transparent 20%, #121212 20%, #121212 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #121212 20%, #121212 80%, transparent 80%, transparent) 37.5px 37.5px, linear-gradient(#000000 3px, transparent 3px) 0 -1.5px, linear-gradient(90deg, #000000 3px, #121212 3px) -1.5px 0;
+  background-size: 75px 75px, 75px 75px, 37.5px 37.5px, 37.5px 37.5px;
   width: 100vw;
   height: 100vh;
   font-family: "Manrope", sans-serif;

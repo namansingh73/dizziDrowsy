@@ -14,6 +14,7 @@
   </head>
 
   <body>
+    <div class="bg-animated" include-html="/back"></div>
     <div class="signupSection">
       <div class="info">
         <h2>Created For:-</h2>
@@ -58,6 +59,7 @@
     <div class="cursor-dot-outline"></div>
     <div class="cursor-dot"></div>
     <script src="{{ url_for('static',filename='js/cursor.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/bg.js') }}"></script>
     <script>
       gsap.to(document.querySelector(".signupSection"), {
         duration: 0.75,

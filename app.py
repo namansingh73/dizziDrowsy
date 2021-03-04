@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 
 def distance(x1, y1, x2, y2):
-    distance = ((((x2 - x1) * 2) + ((y2 - y1) * 2)) ** 0.5)
+    distance = ((((x2 - x1) ** 2) + ((y2 - y1) ** 2)) ** 0.5)
     return distance
 
 
@@ -190,6 +190,10 @@ def video_feed2():
 def index():
     """Video streaming home page."""
     return render_template('index.html')
+
+@app.route('/back')
+def back():
+    return render_template('background.html')
 
 @app.route('/loginPage')
 def login():
