@@ -8,5 +8,4 @@ includeHTML = async () => {
     element.innerHTML = data;
   };
   
-  includeHTML();
   

@@ -11,6 +11,9 @@ camera = cv2.VideoCapture(0)
 points = [(100, 150), (200, 400), (300, 270), (400, 300), (150, 400), (250, 300), (350, 200), (450, 350)]
 start = time.time()
 random.shuffle(points)
+respTime = 0
+doneCheck = 0
+firstTime = True
 
 app = Flask(__name__)
 
@@ -21,9 +24,11 @@ def distance(x1, y1, x2, y2):
 
 
 def gen_frames2():  # generate frame by frame from camera
+    global firstTime, respTime, doneCheck# generate frame by frame from camera
     while True:
         # Capture frame-by-frame
         success, frame = camera.read()  # read the camera frame
+        frame = cv2.flip(frame,1)# read the camera frame
         if not success:
             break
         else:
@@ -49,8 +54,15 @@ def gen_frames2():  # generate frame by frame from camera
                     if len(points) != 0:
                         del points[0]
                 if len(points) == 0:
-                    end = time.time()
+                    if firstTime:
+                        end = time.time()
+                        respTime = ((end - start)/9) * 10
+                        doneCheck = 1
+                        firstTime = False
+                        # render_without_request(value=respTime)
+                    # print(respTime)
                     break
+                    
 
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
@@ -70,9 +82,7 @@ import cv2
 
 app = Flask(__name__)
 
-vs = cv2.VideoCapture(0)  # use 0 for web camera
-#  for cctv camera use rtsp://username:password@ip_address:554/user=username_password='password'_channel=channel_number_stream=0.sdp' instead of camera
-# for local webcam use cv2.VideoCapture(0)
+vs = cv2.VideoCapture(0)  
 
 def eye_aspect_ratio(eye):
     A = dist.euclidean(eye[1], eye[5])
@@ -80,14 +90,6 @@ def eye_aspect_ratio(eye):
     C = dist.euclidean(eye[0], eye[3])
     ear = (A + B) / (2.0 * C)
     return ear
-
-
-# ap = argparse.ArgumentParser()
-# ap.add_argument("-p", "--shape-predictor", default="shape_predictor_68_face_landmarks.dat",
-#                 help="path to facial landmark predictor")
-# ap.add_argument("-w", "--webcam", type=int, default=1,
-#                 help="index of webcam on system")
-# args = vars(ap.parse_args())
 
 EYE_AR_THRESH = 0.20
 EYE_AR_CONSEC_FRAMES = 25
@@ -106,7 +108,6 @@ predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
 print("[INFO] starting video stream thread...")
-# vs = VideoStream(src=args["webcam"]).start()
 time.sleep(1.0)
 
 
@@ -115,6 +116,7 @@ def gen_frames1():  # generate frame by frame from camera
     while True:
         # Capture frame-by-frame
         success, frame = vs.read()  # read the camera frame
+        frame = cv2.flip(frame,1)# read the camera frame
         if not success:
             break
         else:
@@ -201,11 +203,11 @@ def login():
 
 @app.route('/dizzy')
 def dizzi():
-    return render_template('dizzy.html')
+    return render_template('dizzy.html', value=doneCheck)
 
 @app.route('/dizzy-result')
 def dizziResult():
-    return render_template('dizzy-result.html')
+    return render_template('dizzy-result.html', value=int(respTime) )
 
 @app.route('/driving')
 def driving():

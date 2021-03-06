@@ -3,39 +3,51 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
+    <title>Home</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="shortcut icon" href="#">
-    <link
-      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
-      rel="stylesheet"
-    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/glow.css') }}">
   </head>
   <body>
     <div class="bg-animated" include-html="/back"></div>
-    <div
-      class="accident"
-      data-tilt
-      data-tilt-max="3"
-      data-tilt-speed="400"
-      data-tilt-perspective="500"
-      data-tilt-reverse="true"
-      data-tilt-scale="1.04"
-    >
-      <!-- https://www.ginjurylaw.com/wp-content/uploads/2020/05/Car-Accidents-Banner.jpg -->
-      <h1 class="accident-title">
-        Not driving in full consiousness may lead to this.
-      </h1>
-      <img class="accident-image" src="{{ url_for('static',filename='temp/accident.jpg') }}" alt="" />
-      <h1 class="accident-goal">We aim to prevent this from happening.</h1>
+    <div class="container hero">
+      <div
+        class="accident"
+        data-tilt
+        data-tilt-max="3"
+        data-tilt-speed="400"
+        data-tilt-perspective="500"
+        data-tilt-reverse="true"
+        data-tilt-scale="1.04"
+      >
+        <!-- https://www.ginjurylaw.com/wp-content/uploads/2020/05/Car-Accidents-Banner.jpg -->
+        <h1 class="accident-title">
+          Not driving in full consiousness may lead to this.
+        </h1>
+        <img class="accident-image" src="{{ url_for('static',filename='temp/accident.jpg') }}" alt="" />
+        <h1 class="accident-goal">We aim to prevent this from happening.</h1>
+      </div>
+      <div class="title-container noDisplay">
+        <div class="title"><h1>SAHAYAK</h1></div>
+        <div class="tagline"><h3>Helping you keeping yourself safe.</h3></div>
+      </div>
     </div>
     <div class="next">
       <div class="next--title">
@@ -49,15 +61,18 @@
       <button class="next--button">Proceed</button>
     </div>
 
-    <div class="title-container noDisplay">
-      <div class="title"><h1>SAHAYAK</h1></div>
-      <div class="tagline"><h3>Helping you keeping yourself safe.</h3></div>
+    <div class="container content">
+      <img src="{{ url_for('static',filename='temp/a1.png') }}" alt="" />
     </div>
+    <div class="container content">
+      <img src="{{ url_for('static',filename='temp/a2.png') }}" alt="" />
+    </div>
+
     <div class="cursor-dot-outline"></div>
     <div class="cursor-dot"></div>
-    <script src="{{ url_for('static',filename='js/cursor.js') }}"></script>
     <script src="{{ url_for('static',filename='js/main-button.js') }}"></script>
     <script src="{{ url_for('static',filename='js/vanilla-tilt.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/cursor.js') }}"></script>
     <script src="{{ url_for('static',filename='js/bg.js') }}"></script>
   </body>
 </html>

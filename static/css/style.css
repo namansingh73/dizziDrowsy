@@ -52,6 +52,12 @@ body {
   border-bottom-left-radius: 10px;
 }
 
+.svg{
+  width: 100%;
+  height: auto;
+  background: white;
+}
+
 .info h2 {
   margin-bottom: 10%;
   font-size: 24px;

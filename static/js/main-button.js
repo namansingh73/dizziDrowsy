@@ -1,5 +1,7 @@
+const mainContainer = document.body.querySelector(".hero");
+const contentContainers = document.body.querySelectorAll(".container.content");
 const button = document.body.querySelector(".next--button");
-const accident = document.body.querySelector(".accident");
+const accident = mainContainer.querySelector(".accident");
 const nametitle = document.body.querySelector(".next--title");
 const titleContainer = document.body.querySelector(".title-container");
 const title = document.body.querySelector(".title-container .title");
@@ -16,14 +18,25 @@ tl.to(accident, {
 })
   .to(nametitle, {
     opacity: 1,
-    duration: 0.5,
+    scrollTrigger: nametitle,
+    duration: 0.25,
     ease: "power2.in",
   })
   .to(button, {
     opacity: 1,
-    duration: 0.5,
+    scrollTrigger: button,
+    duration: 0.25,
     ease: "power2.in",
   });
+
+contentContainers.forEach((content) =>
+  gsap.to(content, {
+    opacity: 1,
+    scrollTrigger: content,
+    duration: 0.25,
+    ease: "power2.in",
+  })
+);
 
 button.addEventListener("mousedown", () => {
   if (t) {
@@ -38,9 +51,17 @@ button.addEventListener("mousedown", () => {
       yPercent: 10,
       ease: "power2.out",
     });
+    contentContainers.forEach((content) =>
+      gsap.to(content, {
+        opacity: 0,
+        duration: 0.2,
+        yPercent: 10,
+        ease: "power2.out",
+      })
+    );
     setTimeout(() => {
-      document.body.removeChild(accident);
-      // document.body.removeChild(nametitle);
+      mainContainer.removeChild(accident);
+      contentContainers.forEach((c) => document.body.removeChild(c));
       nametitle.classList.add("noDisplay");
       titleContainer.classList.remove("noDisplay");
       tl.to(".title-container .title", {
@@ -54,6 +75,7 @@ button.addEventListener("mousedown", () => {
         yPercent: -5,
         ease: "power2.in",
       });
+      includeHTML();
     }, 600);
     t = false;
   } else {

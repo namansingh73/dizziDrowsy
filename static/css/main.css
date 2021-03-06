@@ -182,12 +182,20 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  opacity: 0;
+  height: 100vh;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .result-container .score-container {
   height: 450px;
   width: 450px;
+  opacity: 0;
   border-radius: 100%;
   border: 10px solid #94ebcd;
   background: none;
@@ -238,7 +246,15 @@
           justify-content: center;
 }
 
+.result-container .result-text h4 {
+  opacity: 0;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
 .result-container .result-text .result {
+  opacity: 0;
   font-size: 60px;
   line-height: 80px;
   font-weight: 500;
@@ -246,6 +262,7 @@
 }
 
 .result-container .result-text .result-actions {
+  opacity: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -312,8 +329,9 @@
   position: absolute;
   z-index: 0;
   opacity: 0;
-  width: 100%;
-  height: 90vh;
+  width: 80%;
+  height: 90%;
+  margin: 5%;
 }
 
 .drive-stream--toolbar {
@@ -333,7 +351,7 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  height: 40%;
+  height: 60%;
   position: absolute;
   right: 60px;
 }
@@ -419,6 +437,39 @@
 
 .error-container p.error {
   font-size: 20px;
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow-x: hidden;
+}
+
+.container-sub {
+  padding: 40px;
+  background-color: #121212;
+  width: 60%;
+}
+
+.container.content {
+  opacity: 0;
+}
+
+.container.content img {
+  height: 80%;
 }
 
 .accident {
@@ -569,8 +620,7 @@ body {
   opacity: 1;
   background: radial-gradient(circle, transparent 20%, #121212 20%, #121212 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #121212 20%, #121212 80%, transparent 80%, transparent) 37.5px 37.5px, linear-gradient(#000000 3px, transparent 3px) 0 -1.5px, linear-gradient(90deg, #000000 3px, #121212 3px) -1.5px 0;
   background-size: 75px 75px, 75px 75px, 37.5px 37.5px, 37.5px 37.5px;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
   font-family: "Manrope", sans-serif;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -586,8 +636,30 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   color: white;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: #121212;
+}
+
+::-webkit-scrollbar-track {
+  opacity: 0;
+  width: 10px;
+  background: #121212;
+}
+
+::-webkit-scrollbar-track-piece {
+  opacity: 0;
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  width: 10px;
+  border-radius: 10px;
 }
 
 a,

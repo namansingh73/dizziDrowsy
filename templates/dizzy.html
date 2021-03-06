@@ -20,6 +20,7 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
   </head>
   <body>
+    <div class="bg-animated" include-html="/back"></div>
     <div class="dizzy-container">
       <div class="details">
         <h1>Dizzyness check</h1>
@@ -45,5 +46,12 @@
     <script src="{{ url_for('static',filename='js/cursor.js') }}"></script>
     <script src="{{ url_for('static',filename='js/start-button.js') }}"></script>
     <script src="{{ url_for('static',filename='js/bg.js') }}"></script>
+    <!-- <script>
+      var completed = "0";
+      setInterval(() => {
+        completed = "{{value1}}";
+        if (completed == "1") window.location.replace("/dizzy-result");
+      }, 2000);
+    </script> -->
   </body>
 </html>
