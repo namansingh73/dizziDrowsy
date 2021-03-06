@@ -332,6 +332,7 @@
   width: 80%;
   height: 90%;
   margin: 5%;
+  border-radius: 5px;
 }
 
 .drive-stream--toolbar {

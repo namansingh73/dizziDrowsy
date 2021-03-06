@@ -207,6 +207,13 @@ def dizzi():
 
 @app.route('/dizzy-result')
 def dizziResult():
+    import requests
+    response = requests.post('https://events-api.notivize.com/applications/7a6f5ffc-85fe-4db3-9795-e8836c0fc791/event_flows/0be838ea-38b3-4179-9045-5d0c086e0d27/events', json = {
+        'email': 'snaman431@gmail.com',
+        'respTime': int(respTime),
+        'unique_id1': time.time()
+        })
+    print(response)
     return render_template('dizzy-result.html', value=int(respTime) )
 
 @app.route('/driving')
