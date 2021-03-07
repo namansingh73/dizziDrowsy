@@ -56,7 +56,7 @@ def gen_frames2():  # generate frame by frame from camera
                 if len(points) == 0:
                     if firstTime:
                         end = time.time()
-                        respTime = ((end - start)/9) * 10
+                        respTime = ((end - start)/18) * 10
                         doneCheck = 1
                         firstTime = False
                         # render_without_request(value=respTime)
@@ -91,7 +91,7 @@ def eye_aspect_ratio(eye):
     ear = (A + B) / (2.0 * C)
     return ear
 
-EYE_AR_THRESH = 0.20
+EYE_AR_THRESH = 0.25
 EYE_AR_CONSEC_FRAMES = 25
 EYE_AR_BLINK_LOW = 1
 EYE_AR_BLINK_HIGH = 8
