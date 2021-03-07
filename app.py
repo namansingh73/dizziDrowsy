@@ -8,11 +8,17 @@ import random
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 camera = cv2.VideoCapture(0)
-points = [(100, 150), (200, 400), (300, 270), (400, 300), (150, 400), (250, 300), (350, 200), (450, 350)]
+points = [(100, 150), (200, 400), (300, 270), (490, 310), (160, 450), (250, 350), (350, 250), (450, 350),
+          (150, 190), (210, 310), (310, 280), (480, 320), (170, 440), (260, 340), (360, 240), (420, 340),
+          (160, 130), (220, 320), (320, 290), (470, 330), (190, 430), (250, 330), (370, 230), (430, 330),
+          (170, 150), (230, 330), (330, 250), (460, 340), (180, 420), (230, 320), (380, 220), (440, 320),
+          (180, 130), (240, 340), (340, 260), (450, 350), (140, 410), (220, 310), (390, 210), (410, 310)
+          ]
 start = time.time()
 random.shuffle(points)
 respTime = 0
 doneCheck = 0
+counter =0
 firstTime = True
 
 app = Flask(__name__)
@@ -24,7 +30,7 @@ def distance(x1, y1, x2, y2):
 
 
 def gen_frames2():  # generate frame by frame from camera
-    global firstTime, respTime, doneCheck# generate frame by frame from camera
+    global firstTime, respTime, doneCheck, counter# generate frame by frame from camera
     while True:
         # Capture frame-by-frame
         success, frame = camera.read()  # read the camera frame
@@ -53,15 +59,20 @@ def gen_frames2():  # generate frame by frame from camera
                 if (distance(x, y, a, b) < 50):
                     if len(points) != 0:
                         del points[0]
-                if len(points) == 0:
-                    if firstTime:
-                        end = time.time()
-                        respTime = ((end - start)/18) * 10
-                        doneCheck = 1
-                        firstTime = False
+                        counter = counter + 1
+                        respTime = (40/counter)
+                        print(respTime)
+                        if start == 30:
+                            doneCheck = 1
+                # if len(points) == 0:
+                #     if firstTime:
+                #         end = time.time()
+                #         respTime = ((end - start)/18) * 10
+                #         doneCheck = 1
+                #         firstTime = False
                         # render_without_request(value=respTime)
                     # print(respTime)
-                    break
+                    # break
                     
 
             ret, buffer = cv2.imencode('.jpg', frame)
@@ -210,11 +221,11 @@ def dizziResult():
     import requests
     response = requests.post('https://events-api.notivize.com/applications/7a6f5ffc-85fe-4db3-9795-e8836c0fc791/event_flows/0be838ea-38b3-4179-9045-5d0c086e0d27/events', json = {
         'email': 'snaman431@gmail.com',
-        'respTime': int(respTime),
+        'respTime': round(respTime,2),
         'unique_id1': time.time()
         })
     print(response)
-    return render_template('dizzy-result.html', value=int(respTime) )
+    return render_template('dizzy-result.html', value=round(respTime,2) )
 
 @app.route('/driving')
 def driving():
