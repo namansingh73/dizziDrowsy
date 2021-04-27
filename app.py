@@ -61,7 +61,6 @@ def gen_frames2():  # generate frame by frame from camera
                         del points[0]
                         counter = counter + 1
                         respTime = (40/counter)
-                        print(respTime)
                         if start == 30:
                             doneCheck = 1
                 # if len(points) == 0:
