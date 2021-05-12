@@ -4,6 +4,7 @@ import numpy as np
 import dlib
 import time
 import random
+import threading
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
@@ -60,8 +61,8 @@ def gen_frames2():  # generate frame by frame from camera
                     if len(points) != 0:
                         del points[0]
                         counter = counter + 1
-                        respTime = (40/counter)
-                        if start == 30:
+                        respTime = (20/counter)
+                        if (time.time() - start) == 20:
                             doneCheck = 1
                 # if len(points) == 0:
                 #     if firstTime:
@@ -121,71 +122,89 @@ print("[INFO] starting video stream thread...")
 time.sleep(1.0)
 
 
+x = 0
+blinkRate = 0
+timerExit = False
+
+def timer():
+    global x, numBlinks, blinkRate
+    while True:
+        if timerExit:
+            break
+        time.sleep(1)
+        x += 1
+        blinkRate = (numBlinks * 60) / x
+
+
+timerThread = threading.Thread(target=timer)
+
 def gen_frames1():  # generate frame by frame from camera
     global EYE_AR_THRESH, EYE_AR_CONSEC_FRAMES, EYE_AR_BLINK_LOW, EYE_AR_BLINK_HIGH, numBlinks, blinks, COUNTER, drowsyWarning
+    timerThread.start()
     while True:
         # Capture frame-by-frame
         success, frame = vs.read()  # read the camera frame
-        frame = cv2.flip(frame,1)# read the camera frame
+        frame = cv2.flip(frame,1)
         if not success:
             break
         else:
             frame = imutils.resize(frame, width=450)
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-            rects = detector(gray, 0)
+        rects = detector(gray, 0)
 
-            for rect in rects:
-                shape = predictor(gray, rect)
-                shape = face_utils.shape_to_np(shape)
-                leftEye = shape[lStart:lEnd]
-                rightEye = shape[rStart:rEnd]
-                leftEAR = eye_aspect_ratio(leftEye)
-                rightEAR = eye_aspect_ratio(rightEye)
-                ear = (leftEAR + rightEAR) / 2.0
-                leftEyeHull = cv2.convexHull(leftEye)
-                rightEyeHull = cv2.convexHull(rightEye)
-                cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
-                cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
+        for rect in rects:
+            shape = predictor(gray, rect)
+            shape = face_utils.shape_to_np(shape)
+            leftEye = shape[lStart:lEnd]
+            rightEye = shape[rStart:rEnd]
+            leftEAR = eye_aspect_ratio(leftEye)
+            rightEAR = eye_aspect_ratio(rightEye)
+            ear = (leftEAR + rightEAR) / 2.0
+            leftEyeHull = cv2.convexHull(leftEye)
+            rightEyeHull = cv2.convexHull(rightEye)
+            cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
+            cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
 
-                if ear < EYE_AR_THRESH:
-                    COUNTER += 1
+            if ear < EYE_AR_THRESH:
+                COUNTER += 1
 
-                    if EYE_AR_BLINK_LOW <= COUNTER <= EYE_AR_BLINK_HIGH:
-                        blinks = True
+                if EYE_AR_BLINK_LOW <= COUNTER <= EYE_AR_BLINK_HIGH:
+                    blinks = True
 
-                    if COUNTER > EYE_AR_BLINK_HIGH:
-                        blinks = False
-
-                    if COUNTER >= EYE_AR_CONSEC_FRAMES:
-                        drowsyWarning = True
-                        cv2.putText(frame, "DROWSINESS ALERT!", (10, 30),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                else:
+                if COUNTER > EYE_AR_BLINK_HIGH:
                     blinks = False
-                    if EYE_AR_BLINK_LOW <= COUNTER <= EYE_AR_BLINK_HIGH:
-                        numBlinks += 1
-                    COUNTER = 0
 
-                cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                cv2.putText(frame, "Blinks: {blinks}".format(blinks=numBlinks), (10, 90),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                if blinks:
-                    cv2.putText(frame, "BLINK DETECTED!", (10, 120),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                if COUNTER >= EYE_AR_CONSEC_FRAMES:
+                    drowsyWarning = True
+                    cv2.putText(frame, "DROWSINESS ALERT!", (10, 30),
+                                cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 0, 0), 2)
+            else:
+                blinks = False
+                if EYE_AR_BLINK_LOW <= COUNTER <= EYE_AR_BLINK_HIGH:
+                    numBlinks += 1
+                COUNTER = 0
 
-                if drowsyWarning:
-                    cv2.putText(frame, "DROWSY WARNING: TRUE", (10, 60),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                else:
-                    cv2.putText(frame, "DROWSY WARNING: FALSE", (10, 60),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
+                        cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 0, 0), 2)
+            cv2.putText(frame, "Blinks: {blinks}".format(blinks=numBlinks), (10, 90),
+                        cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 0, 0), 2)
+            cv2.putText(frame, "Blink Rate: {blinks}".format(blinks=round(blinkRate,2)), (10, 150),
+                        cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 0, 0), 2)
+            if blinks:
+                cv2.putText(frame, "BLINK DETECTED!", (10, 120),
+                            cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 0, 0), 2)
+
+            if drowsyWarning:
+                cv2.putText(frame, "DROWSY WARNING: TRUE", (10, 60),
+                            cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 0, 0), 2)
+            else:
+                cv2.putText(frame, "DROWSY WARNING: FALSE", (10, 60),
+                            cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 0, 0), 2)
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
-
 
 @app.route('/video_feed1')
 def video_feed1():

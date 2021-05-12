@@ -33,5 +33,5 @@ button.addEventListener("mousedown", () => {
   // force show result
   setTimeout(() => {
     window.location.replace("/dizzy-result");
-  }, 40000);
+  }, 20000);
 });
